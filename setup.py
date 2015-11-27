@@ -20,6 +20,12 @@
 depsOK = True
 
 try:
+    from setuptools import setup, find_packages
+    from setuptools.extension import Extension
+except ImportError:
+    print "Setuptools must be installed - see http://pypi.python.org/pypi/setuptools"
+
+try:
     import numpy
 except ImportError:
     depsOK = False
@@ -49,31 +55,55 @@ except ImportError:
         depsOK = False
         print "Mayavi should be installed first from suitable binaries."
         print "See http://code.enthought.com/projects/mayavi/"
-
+        
 try:
-    from setuptools import setup, find_packages
-    from setuptools.extension import Extension
-    if depsOK:
-        setup(
-            name = "imusim",
-            version = "0.2",
-            author = "Alex Young and Martin Ling",
-            license = "GPLv3",
-            url = "http://www.imusim.org/",
-            install_requires = ["simpy", "pyparsing"],
-            packages = find_packages(),
-            include_dirs = [numpy.get_include()],
-            ext_modules = [
-                Extension("imusim.maths.quaternions",
-                    ['imusim/maths/quaternions.c']),
-                Extension("imusim.maths.quat_splines",
-                    ['imusim/maths/quat_splines.c']),
-                Extension("imusim.maths.vectors",['imusim/maths/vectors.c']),
-                Extension("imusim.maths.natural_neighbour",[
-                    'imusim/maths/natural_neighbour/utils.c',
-                    'imusim/maths/natural_neighbour/delaunay.c',
-                    'imusim/maths/natural_neighbour/natural.c',
-                    'imusim/maths/natural_neighbour.c'])]
-        )
+    #from Cython.Distutils import build_ext
+    from Cython.Build import cythonize
+    USE_CYTHON = True
+    print "Using Cython to compile modules"
 except ImportError:
-    print "Setuptools must be installed - see http://pypi.python.org/pypi/setuptools"
+    USE_CYTHON = False
+    print "Using C sources for modules"
+
+if USE_CYTHON:
+    def c_to_pyx(sources):
+        c2p = lambda path: path.strip().rsplit('.c')[0] + '.pyx'
+        return [c2p(path) for path in sources]
+else:
+    def c_to_pyx(sources):
+        return sources
+
+natural_neighbour_sources = [
+    'imusim/maths/natural_neighbour.{}'.format('pyx' if USE_CYTHON else 'c'),
+    'imusim/maths/natural_neighbour/utils.c',
+    'imusim/maths/natural_neighbour/delaunay.c',
+    'imusim/maths/natural_neighbour/natural.c'
+]
+
+ext_modules = [
+    Extension("imusim.maths.quaternions",
+              c_to_pyx(['imusim/maths/quaternions.c'])),
+    Extension("imusim.maths.quat_splines",
+              c_to_pyx(['imusim/maths/quat_splines.c'])),
+    Extension("imusim.maths.vectors",
+              c_to_pyx(['imusim/maths/vectors.c'])),
+    Extension("imusim.maths.natural_neighbour",
+              natural_neighbour_sources)
+]
+
+if USE_CYTHON:
+    ext_modules = cythonize(ext_modules)
+
+if depsOK:
+    setup(
+        name = "imusim",
+        version = "0.2",
+        author = "Alex Young and Martin Ling",
+        license = "GPLv3",
+        url = "http://www.imusim.org/",
+        install_requires = ["simpy==2.2", "pyparsing"],
+        packages = find_packages(),
+        include_dirs = [numpy.get_include()],
+        ext_modules = ext_modules
+    )
+
