@@ -1,0 +1,51 @@
+package:
+  name: imusim
+  version: "0.2.dev1"
+
+source:
+  git_rev: 209ff683d0c19e9a8593735ca0bf57d9878a5b4e
+  git_url: https://github.com/hovren/imusim.git
+
+requirements:
+  build:
+    - python
+    - setuptools
+    - numpy
+    - scipy
+    - matplotlib
+    - mayavi
+    - cython
+    - simpy >=2.2,<3
+  run:
+    - python
+    - setuptools
+    - numpy
+    - scipy
+    - matplotlib
+    - mayavi
+    - simpy >=2.2,<3
+test:
+  # Python imports
+  imports:
+    - imusim
+
+  # commands:
+    # You can put test commands to be run here.  Use this to test that the
+    # entry points work.
+
+
+  # You can also put a file called run_test.py in the recipe that will be run
+  # at test time.
+
+  # requires:
+    # Put any additional test requirements here.  For example
+    # - nose
+
+about:
+  home: https://github.com/martinling/imusim
+  license: GNU General Public License (GPL)
+  summary: 'simulator for inertial and magnetic sensing systems and algorithms'
+
+# See
+# http://docs.continuum.io/conda/build.html for
+# more information about meta.yaml
