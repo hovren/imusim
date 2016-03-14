@@ -48,13 +48,12 @@ except ImportError:
 
 try:
     import mayavi
+    HAS_MAYAVI = True
 except ImportError:
     try:
         import enthought.mayavi
     except ImportError:
-        depsOK = False
-        print "Mayavi should be installed first from suitable binaries."
-        print "See http://code.enthought.com/projects/mayavi/"
+        HAS_MAYAVI = False
         
 try:
     #from Cython.Distutils import build_ext
@@ -93,6 +92,13 @@ ext_modules = [
 
 if USE_CYTHON:
     ext_modules = cythonize(ext_modules)
+    
+packages = find_packages()
+
+if not HAS_MAYAVI:
+    print 'Building without mayavi'
+    print packages
+    packages.remove('imusim.visualisation')
 
 if depsOK:
     setup(
@@ -102,7 +108,7 @@ if depsOK:
         license = "GPLv3",
         url = "http://www.imusim.org/",
         install_requires = ["simpy>=2.3,<3", "pyparsing"],
-        packages = find_packages(),
+        packages = packages,
         include_dirs = [numpy.get_include()],
         ext_modules = ext_modules
     )
