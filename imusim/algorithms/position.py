@@ -1,6 +1,9 @@
 """
 Algorithms for tracking the position of a body model.
 """
+from __future__ import division
+from past.utils import old_div
+from builtins import object
 # Copyright (C) 2009-2011 University of Edinburgh
 #
 # This file is part of IMUSim.
@@ -26,15 +29,15 @@ from imusim.maths import integrators
 from imusim.maths.kalman import KalmanFilter
 from imusim.utilities.time_series import TimeSeries
 from imusim.utilities.documentation import prepend_method_doc
+from future.utils import with_metaclass
 
-class PositionEstimator(object):
+class PositionEstimator(with_metaclass(ABCMeta, object)):
     """
     Base class for position estimation algorithms.
 
     A position estimator takes data from IMUs on a jointed rigid body and
     updates the root position of a L{SampledBodyModel}.
     """
-    __metaclass__ = ABCMeta
 
     def __init__(self, model, initialTime=0, initialPosition=np.zeros((3,1))):
         """
@@ -92,7 +95,7 @@ class PositionEstimator(object):
             parameter is not found in the passed data.
         """
         for item in data:
-            if item.has_key('jointName') and item['jointName'] == jointName:
+            if 'jointName' in item and item['jointName'] == jointName:
                 return item.get(parameter, default)
 
 class ConstantPosition(PositionEstimator):
@@ -227,7 +230,7 @@ class ContactTrackingKalmanFilter(PositionEstimator):
         highestProbability = 0
 
         for point in self._points:
-            vHat = -(point.position(t) - point.position(t-dt)) / dt
+            vHat = old_div(-(point.position(t) - point.position(t-dt)), dt)
             vError = vHat - vPredicted
             mahalanobis_distance = np.sqrt(vError.T * inv_cov * vError)
             probability = 2 * scipy.stats.norm.cdf(-mahalanobis_distance)

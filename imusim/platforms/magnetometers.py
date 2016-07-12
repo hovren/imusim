@@ -1,6 +1,8 @@
 """
 Magnetometer models.
 """
+from __future__ import division
+from past.utils import old_div
 # Copyright (C) 2009-2011 University of Edinburgh
 #
 # This file is part of IMUSim.
@@ -87,15 +89,15 @@ class HMC105x(NoisyTransformedSensor, Magnetometer):
         sensitivity = self.SENSITIVITY
         sensitivity *= self.INA321_NOMINAL_GAIN
         sensitivity *= rng.normal(size=3, loc=1,
-                scale=self.MAX_SENSITIVITY_ERROR/3)
+                scale=old_div(self.MAX_SENSITIVITY_ERROR,3))
 
         sensitivity = np.diag(sensitivity)
         cross_axis = np.eye(3)
-        for s in ((i,j) for i,j in np.ndindex(3, 3) if i<>j):
-            cross_axis[s] = rng.normal(loc=0, scale=self.CROSS_AXIS/3)
+        for s in ((i,j) for i,j in np.ndindex(3, 3) if i!=j):
+            cross_axis[s] = rng.normal(loc=0, scale=old_div(self.CROSS_AXIS,3))
         transform = np.dot(sensitivity,cross_axis)
 
-        offset = self.VDD / 2
+        offset = old_div(self.VDD, 2)
         offset += rng.normal(size=(3, 1), loc=0,
                 scale=self.INA321_INPUT_OFFSET * self.INA321_NOMINAL_GAIN/3)
         offset += rng.normal(size=(3, 1), loc=0,

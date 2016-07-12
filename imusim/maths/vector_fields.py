@@ -1,6 +1,9 @@
 """
 Classes for modelling 3D vector fields.
 """
+from __future__ import division
+from past.utils import old_div
+from builtins import object
 # Copyright (C) 2009-2011 University of Edinburgh
 #
 # This file is part of IMUSim.
@@ -24,12 +27,12 @@ from imusim.maths import vectors
 from imusim.utilities.documentation import prepend_method_doc
 from imusim.maths.natural_neighbour import NaturalNeighbourInterpolatorC
 import numpy as np
+from future.utils import with_metaclass
 
-class VectorField(object):
+class VectorField(with_metaclass(ABCMeta, object)):
     """
     Base class for vector fields.
     """
-    __metaclass__ = ABCMeta
 
     @abstractmethod
     def __call__(self, position, t):
@@ -107,7 +110,7 @@ class RBFInterpolatedField(InterpolatedVectorField):
 
     def __call__(self, position, t):
         length = np.shape(position)[-1]
-        nblocks = min(1, length/500)
+        nblocks = min(1, old_div(length,500))
         inblocks = np.array_split(position, nblocks, axis=1)
         outblocks = [np.array([np.atleast_1d(c(*(list(ib))))
             for c in self.components]) for ib in inblocks]

@@ -1,6 +1,7 @@
 """
 Tests for unscented Kalman filter implementation.
 """
+from builtins import range
 # Copyright (C) 2009-2011 University of Edinburgh
 #
 # This file is part of IMUSim.
@@ -52,7 +53,7 @@ def testNonLinearMeasurement():
     estimates = np.empty_like(trueStates)
     estimateCovariances = np.empty((SAMPLES,2,2))
 
-    for i in xrange(SAMPLES):
+    for i in range(SAMPLES):
         ukf.update(measurements[:,i:i+1])
         estimates[:,i:i+1] = ukf.state
         estimateCovariances[i] = ukf.stateCovariance
@@ -94,7 +95,7 @@ def testNonLinearStateUpdate():
     estimates = np.empty_like(trueStates)
     estimateCovariances = np.empty((SAMPLES,2,2))
 
-    for i in xrange(1,SAMPLES):
+    for i in range(1,SAMPLES):
         trueStates[:,i] = stateUpdate(trueStates[:,i-1],0)
         measurements[:,i] = trueStates[:,i] + np.random.normal(loc=0, scale=0.5,
                 size=2)

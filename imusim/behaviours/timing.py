@@ -19,12 +19,14 @@ Timing behaviours.
 # along with IMUSim.  If not, see <http://www.gnu.org/licenses/>.
 
 from __future__ import division
+from builtins import object
 from abc import ABCMeta, abstractmethod
 from imusim.platforms.timers import Timer
 from imusim.simulation.base import Simulation
 from imusim.utilities.documentation import prepend_method_doc
 import SimPy.Simulation
 import numpy as np
+from future.utils import with_metaclass
 
 class VirtualTimer(object):
     """
@@ -86,12 +88,10 @@ class VirtualTimer(object):
     def timeElapsed(self):
         return (self._period - self._remaining) + self.mux._timer.timeElapsed()
 
-class TimerMultiplexer(object):
+class TimerMultiplexer(with_metaclass(ABCMeta, object)):
     """
     Multiplexer for running multiple virtual timers on one hardware timer.
     """
-
-    __metaclass__ = ABCMeta
 
     def __init__(self, timer):
         """

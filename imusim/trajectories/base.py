@@ -1,6 +1,7 @@
 """
 Base classes for trajectories.
 """
+from builtins import object
 # Copyright (C) 2009-2011 University of Edinburgh
 #
 # This file is part of IMUSim.
@@ -22,13 +23,12 @@ from abc import ABCMeta, abstractmethod, abstractproperty
 from imusim.maths.quaternions import Quaternion, QuaternionArray
 from scipy.linalg import expm
 import numpy as np
+from future.utils import with_metaclass
 
-class AbstractTrajectory(object):
+class AbstractTrajectory(with_metaclass(ABCMeta, object)):
     """
     Base class of trajectories
     """
-
-    __metaclass__ = ABCMeta
 
     @abstractproperty
     def startTime(self):

@@ -1,6 +1,7 @@
 """
 Utilities for documenting code.
 """
+from builtins import object
 # Copyright (C) 2009-2011 University of Edinburgh
 #
 # This file is part of IMUSim.

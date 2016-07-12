@@ -19,6 +19,8 @@ Loader for Qualisys optical capture data in TSV format.
 # along with IMUSim.  If not, see <http://www.gnu.org/licenses/>.
 
 from __future__ import division
+from builtins import zip
+from builtins import range
 from imusim.capture.marker import MarkerCapture, Marker3DOF, Marker6DOF
 from imusim.maths.quaternions import Quaternion, QuaternionArray
 import numpy as np

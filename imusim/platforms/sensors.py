@@ -27,16 +27,15 @@ from imusim.utilities.documentation import prepend_method_doc
 from imusim.maths.vectors import vector
 from imusim.maths.quaternions import Quaternion
 import numpy as np
+from future.utils import with_metaclass
 
-class Sensor(Component):
+class Sensor(with_metaclass(ABCMeta, Component)):
     """
     Base class for all IMU sensor classes.
 
     @ivar platform: L{Platform} this sensor is attached to.
     @ivar trajectory: L{OffsetTrajectory} followed by this sensor.
     """
-
-    __metaclass__ = ABCMeta
 
     def __init__(self, platform, positionOffset=vector(0,0,0),
             rotationOffset=Quaternion(1,0,0,0)):

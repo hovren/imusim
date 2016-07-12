@@ -19,6 +19,7 @@ Tests of mathematical transforms.
 # along with IMUSim.  If not, see <http://www.gnu.org/licenses/>.
 
 from __future__ import division
+from builtins import zip
 import numpy as np
 from numpy import random
 from scipy import stats

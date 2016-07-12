@@ -1,6 +1,7 @@
 """
 Iterative integrator implementations.
 """
+from builtins import object
 # Copyright (C) 2009-2011 University of Edinburgh
 #
 # This file is part of IMUSim.
@@ -21,12 +22,12 @@ Iterative integrator implementations.
 from imusim.utilities.documentation import prepend_method_doc
 from abc import ABCMeta, abstractmethod
 from copy import copy
+from future.utils import with_metaclass
 
-class Integrator(object):
+class Integrator(with_metaclass(ABCMeta, object)):
     """
     Base class for integrators.
     """
-    __metaclass__ = ABCMeta
 
     def __init__(self, initialValue):
         """

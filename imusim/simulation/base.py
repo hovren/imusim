@@ -1,6 +1,11 @@
 """
 Simulation engine for IMUSim.
 """
+from __future__ import print_function
+from __future__ import division
+from builtins import range
+from builtins import object
+from past.utils import old_div
 # Copyright (C) 2009-2011 University of Edinburgh
 #
 # This file is part of IMUSim.
@@ -73,14 +78,14 @@ class Simulation(object):
         def printProgress(self):
             for i in range(0,20):
                 start = time.time()
-                yield SimPy.Simulation.hold, self, self.duration / 20.0
+                yield SimPy.Simulation.hold, self, old_div(self.duration, 20.0)
                 now = self.sim.now() - self.startTime
                 end = time.time()
 
                 remaining = (20-i) * (end-start)
-                print ("Simulated %.1fs of %.1fs (%3.0f%%). " +
+                print(("Simulated %.1fs of %.1fs (%3.0f%%). " +
                         "Estimated time remaining %.1fs") \
-                        %(now, self.duration, (i + 1) * 5, remaining)
+                        %(now, self.duration, (i + 1) * 5, remaining))
 
     def run(self, endTime, printProgress=True):
         """
@@ -91,7 +96,7 @@ class Simulation(object):
         """
 
         if printProgress:
-            print "Simulating..."
+            print("Simulating...")
             startTime = self.time
             duration = endTime - startTime
             progressMonitor = self.ProgressMonitor(self.engine, duration)
@@ -101,9 +106,9 @@ class Simulation(object):
         endWallTime = time.time()
 
         if printProgress:
-            print "Simulation complete."
-            print "Simulated %.1f seconds in %.1f seconds." % (
-                    endTime - startTime, endWallTime - startWallTime)
+            print("Simulation complete.")
+            print("Simulated %.1f seconds in %.1f seconds." % (
+                    endTime - startTime, endWallTime - startWallTime))
 
     def subrng(self):
         """

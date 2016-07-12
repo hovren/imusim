@@ -1,6 +1,7 @@
 """
 Classes to represent marker-based capture data.
 """
+from builtins import object
 # Copyright (C) 2009-2011 University of Edinburgh
 #
 # This file is part of IMUSim.
@@ -46,7 +47,7 @@ class MarkerCapture(object):
         """
         List of the markers in this capture.
         """
-        return self._markers.values()
+        return list(self._markers.values())
 
     def marker(self, id):
         """

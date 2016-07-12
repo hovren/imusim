@@ -1,6 +1,8 @@
 """
 Tests for ASF/AMC input
 """
+from __future__ import division
+from past.utils import old_div
 # Copyright (C) 2009-2011 University of Edinburgh
 #
 # This file is part of IMUSim.
@@ -30,9 +32,9 @@ def testASFInput():
     amcFile = path.join(dir, "16_15.amc")
     bvhFile = path.join(dir, "16_15.bvh")
 
-    asfModel = loadASFFile(asfFile, amcFile, scaleFactor=2.54/100,
-            framePeriod=1.0/120)
-    bvhModel = loadBVHFile(bvhFile, 1.0/100)
+    asfModel = loadASFFile(asfFile, amcFile, scaleFactor=old_div(2.54,100),
+            framePeriod=old_div(1.0,120))
+    bvhModel = loadBVHFile(bvhFile, old_div(1.0,100))
 
     assert set(j.name for j in asfModel) == set(j.name for j in bvhModel)
     for asfNode in asfModel:

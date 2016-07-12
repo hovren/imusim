@@ -1,6 +1,8 @@
 """
 Behaviours for IMU devices.
 """
+from builtins import zip
+from builtins import object
 # Copyright (C) 2009-2011 University of Edinburgh
 #
 # This file is part of IMUSim.
@@ -25,8 +27,9 @@ from imusim.algorithms.calibration import SensorCalibration
 from imusim.platforms.sensors import Sensor
 from imusim.algorithms.orientation import OrientationFilter
 from imusim.platforms.imus import IMU
+from future.utils import with_metaclass
 
-class BasicIMUBehaviour(object):
+class BasicIMUBehaviour(with_metaclass(ABCMeta, object)):
     """
     Basic behaviour for an IMU that performs periodic sampling.
 
@@ -39,8 +42,6 @@ class BasicIMUBehaviour(object):
         object will be passed as a single argument.
     @ivar timerMux: L{TimerMultiplexer} for IMU timer.
     """
-
-    __metaclass__ = ABCMeta
 
     def __init__(self, imu, samplingPeriod, calibration=None, filter=None,
             sampleCallback=None, initialTime=0):

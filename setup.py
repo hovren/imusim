@@ -17,34 +17,35 @@
 # You should have received a copy of the GNU General Public License
 # along with IMUSim.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import print_function
 depsOK = True
 
 try:
     from setuptools import setup, find_packages
     from setuptools.extension import Extension
 except ImportError:
-    print "Setuptools must be installed - see http://pypi.python.org/pypi/setuptools"
+    print("Setuptools must be installed - see http://pypi.python.org/pypi/setuptools")
 
 try:
     import numpy
 except ImportError:
     depsOK = False
-    print "NumPy should be installed first from suitable binaries."
-    print "See http://numpy.scipy.org/"
+    print("NumPy should be installed first from suitable binaries.")
+    print("See http://numpy.scipy.org/")
 
 try:
     import scipy
 except ImportError:
     depsOK = False
-    print "SciPy should be installed first from suitable binaries."
-    print "See http://www.scipy.org/"
+    print("SciPy should be installed first from suitable binaries.")
+    print("See http://www.scipy.org/")
 
 try:
     import matplotlib
 except ImportError:
     depsOK = False
-    print "Matplotlib should be installed first from suitable binaries."
-    print "See http://matplotlib.sf.net/"
+    print("Matplotlib should be installed first from suitable binaries.")
+    print("See http://matplotlib.sf.net/")
 
 try:
     import mayavi
@@ -59,10 +60,10 @@ try:
     #from Cython.Distutils import build_ext
     from Cython.Build import cythonize
     USE_CYTHON = True
-    print "Using Cython to compile modules"
+    print("Using Cython to compile modules")
 except ImportError:
     USE_CYTHON = False
-    print "Using C sources for modules"
+    print("Using C sources for modules")
 
 if USE_CYTHON:
     def c_to_pyx(sources):
@@ -96,8 +97,8 @@ if USE_CYTHON:
 packages = find_packages()
 
 if not HAS_MAYAVI:
-    print 'Building without mayavi'
-    print packages
+    print('Building without mayavi')
+    print(packages)
     packages.remove('imusim.visualisation')
 
 if depsOK:

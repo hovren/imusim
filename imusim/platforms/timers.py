@@ -25,15 +25,14 @@ from imusim.simulation.base import Simulation
 from imusim.utilities.documentation import prepend_method_doc
 import SimPy.Simulation
 import numpy as np
+from future.utils import with_metaclass
 
-class Timer(Component):
+class Timer(with_metaclass(ABCMeta, Component)):
     """
     Base class for simulated hardware timers.
 
     @ivar callback: Function to be called when timer fires.
     """
-
-    __metaclass__ = ABCMeta
 
     def __init__(self, platform):
         self._process = None

@@ -1,6 +1,8 @@
 """
 IMU hardware platform models.
 """
+from __future__ import division
+from past.utils import old_div
 # Copyright (C) 2009-2011 University of Edinburgh
 #
 # This file is part of IMUSim.
@@ -32,13 +34,12 @@ from imusim.platforms.timers import Timer, IdealTimer, ParametricTimer
 from imusim.platforms.radios import Radio, IdealRadio
 from imusim.maths.vectors import vector
 from imusim.utilities.documentation import prepend_method_doc
+from future.utils import with_metaclass
 
-class IMU(Platform):
+class IMU(with_metaclass(ABCMeta, Platform)):
     """
     An IMU hardware platform with one or more sensors.
     """
-
-    __metaclass__ = ABCMeta
 
     @abstractproperty
     def sensors(self):
@@ -118,7 +119,7 @@ class Orient3IMU(StandardIMU):
         @param rng: L{np.random.RandomState} from which to draw imperfections.
         """
         self.adc = QuantisingADC(self, bits=12, vref=1.65)
-        adc_lsb = 3.3/2**self.adc._bits
+        adc_lsb = old_div(3.3,2**self.adc._bits)
         self.timer = ParametricTimer(self, frequency=32768, freqError=30, rng=rng)
         self.accelerometer = MMA7260Q(self, sensitivity='6g',
                 noiseStdDev=15.3*adc_lsb, rng=rng)

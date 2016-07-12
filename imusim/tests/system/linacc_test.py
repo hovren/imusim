@@ -1,6 +1,10 @@
 """
 Test of simulation with distributed linear acceleration estimator.
 """
+from __future__ import division
+from builtins import zip
+from builtins import range
+from past.utils import old_div
 # Copyright (C) 2009-2011 University of Edinburgh
 #
 # This file is part of IMUSim.
@@ -44,7 +48,7 @@ import numpy as np
 
 def testDistLinAccSimulation():
     sim = Simulation()
-    samplingPeriod = 1.0/100
+    samplingPeriod = old_div(1.0,100)
     calibrator = ScaleAndOffsetCalibrator(sim.environment, 1000,
             samplingPeriod, 20)
     bvhFile = path.join(path.dirname(__file__), 'walk.bvh')
@@ -57,8 +61,8 @@ def testDistLinAccSimulation():
     sim.time = simModel.startTime
     k = 128
     slotTime = 0.001
-    txSlots = range(2, len(joints)) + [0,1]
-    auxRxSlots = range(1, len(joints))
+    txSlots = list(range(2, len(joints))) + [0,1]
+    auxRxSlots = list(range(1, len(joints)))
     auxTxSlots = [joints.index(j.parent) for j in joints[1:]]
     schedule = InterSlaveSchedule(slotTime, slotTime, txSlots,
             auxTxSlots, auxRxSlots)

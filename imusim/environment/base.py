@@ -1,6 +1,7 @@
 """
 Overall model of the environment experienced by simulated IMUs.
 """
+from builtins import object
 # Copyright (C) 2009-2011 University of Edinburgh
 #
 # This file is part of IMUSim.

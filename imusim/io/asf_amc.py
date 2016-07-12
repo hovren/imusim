@@ -1,6 +1,9 @@
 """
 Reading of ASF/AMC body model movement files.
 """
+from __future__ import division
+from builtins import zip
+from past.utils import old_div
 # Copyright (C) 2009-2011 University of Edinburgh
 #
 # This file is part of IMUSim.
@@ -100,7 +103,7 @@ def loadASFFile(asfFileName, amcFileName, scaleFactor, framePeriod):
     """
     with open(asfFileName, 'r') as asfFile:
         data = asfParser.parseFile(asfFile)
-        scale = (1.0/data.units.get('length',1)) * scaleFactor
+        scale = (old_div(1.0,data.units.get('length',1))) * scaleFactor
 
         bones = dict((bone.name,bone) for bone in data.bones)
         asfModel = ASFRoot(data.root)
@@ -145,9 +148,9 @@ def loadASFFile(asfFileName, amcFileName, scaleFactor, framePeriod):
                             data['ty'],data['tz']))
                         imusimModel.positionKeyFrames.add(t, position)
 
-                    axes, angles = zip(*[(chan[-1], angle) for chan, angle in
+                    axes, angles = list(zip(*[(chan[-1], angle) for chan, angle in
                         zip(bonedata.channels, bone.channels) if
-                                chan.lower().startswith('r')])
+                                chan.lower().startswith('r')]))
                     rotation = (bonedata.rotationOffset.conjugate *
                             Quaternion.fromEuler(angles[::-1], axes[::-1]))
                     joint = imusimModel.getJoint(bone.name)

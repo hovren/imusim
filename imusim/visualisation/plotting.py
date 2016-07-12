@@ -19,6 +19,7 @@ Support for plotting IMUSim data types.
 # along with IMUSim.  If not, see <http://www.gnu.org/licenses/>.
 
 from __future__ import division
+from builtins import range
 import pylab
 import numpy as np
 import numbers

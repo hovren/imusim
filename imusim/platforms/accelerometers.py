@@ -1,6 +1,8 @@
 """
 Accelerometer models.
 """
+from __future__ import division
+from past.utils import old_div
 # Copyright (C) 2009-2011 University of Edinburgh
 #
 # This file is part of IMUSim.
@@ -84,16 +86,16 @@ class MMA7260Q(NoisyTransformedSensor, Accelerometer):
         if rng is None:
             rng = np.random.RandomState()
 
-        sensitivity = MMA7260Q.NOMINAL_SENSITIVITIES[sensitivity] / STANDARD_GRAVITY
-        sensitivity *= rng.normal(size=3, loc=1, scale=0.075/3)
+        sensitivity = old_div(MMA7260Q.NOMINAL_SENSITIVITIES[sensitivity], STANDARD_GRAVITY)
+        sensitivity *= rng.normal(size=3, loc=1, scale=old_div(0.075,3))
 
         sensitivity = np.diag(sensitivity)
         cross_axis = np.eye(3)
-        for s in ((i,j) for i,j in np.ndindex(3, 3) if i<>j):
-            cross_axis[s] = rng.normal(loc=0, scale=self.MAX_CROSS_AXIS/3)
+        for s in ((i,j) for i,j in np.ndindex(3, 3) if i!=j):
+            cross_axis[s] = rng.normal(loc=0, scale=old_div(self.MAX_CROSS_AXIS,3))
         transform = np.dot(sensitivity,cross_axis)
 
-        offset = rng.normal(size=(3, 1), loc=self.NOMINAL_OFFSET, scale = 0.165/3)
+        offset = rng.normal(size=(3, 1), loc=self.NOMINAL_OFFSET, scale = old_div(0.165,3))
 
         NoisyTransformedSensor.__init__(self, platform, noiseStdDev,
                 transform, offset, **kwargs)

@@ -30,8 +30,7 @@ for loader, modname, ispkg in pkgutil.walk_packages([path]):
             and not modname.startswith('imusim.all'):
         exec("import %s" % modname)
         exec("module = %s" % modname)
-        symbols = filter(lambda o: not inspect.ismodule(o),
-                module.__all__ if hasattr(module,'__all__') else dir(module))
-        symbols = filter(lambda s: not s.startswith('_'), symbols)
+        symbols = [o for o in module.__all__ if hasattr(module,'__all__') else dir(module) if not inspect.ismodule(o)]
+        symbols = [s for s in symbols if not s.startswith('_')]
         exec("from %s import *" % modname)
         __all__ += symbols

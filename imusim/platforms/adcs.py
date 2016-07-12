@@ -1,6 +1,8 @@
 """
 Analogue to digital converter models.
 """
+from __future__ import division
+from past.utils import old_div
 # Copyright (C) 2009-2011 University of Edinburgh
 #
 # This file is part of IMUSim.
@@ -25,13 +27,12 @@ from imusim.platforms.sensors import Sensor
 from imusim.utilities.documentation import prepend_method_doc
 import SimPy.Simulation
 import numpy as np
+from future.utils import with_metaclass
 
-class ADC(Component):
+class ADC(with_metaclass(ABCMeta, Component)):
     """
     Base class for ADCs.
     """
-
-    __metaclass__ = ABCMeta
 
     @abstractmethod
     def transferFunction(self, voltageValues):
@@ -93,7 +94,7 @@ class QuantisingADC(ADC):
         self._vref = vref
 
     def transferFunction(self, voltageValues):
-        return np.clip(np.floor((voltageValues/self._vref) * self._factor +
+        return np.clip(np.floor((old_div(voltageValues,self._vref)) * self._factor +
             0.5) - self._factor, -self._factor , self._factor - 1)
 
     def startSample(self, callback, *sensors):

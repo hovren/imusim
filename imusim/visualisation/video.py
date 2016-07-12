@@ -1,6 +1,9 @@
 """
 Support for creating videos.
 """
+from __future__ import division
+from builtins import str
+from past.utils import old_div
 # Copyright (C) 2009-2011 University of Edinburgh
 #
 # This file is part of IMUSim.
@@ -57,7 +60,7 @@ def createVideo(filename, renderers, tMin, tMax, framerate=25,
     figure.scene.off_screen_rendering = True
     figure.scene.disable_render = True
 
-    frameTimes = np.arange(tMin, tMax, 1.0/framerate)
+    frameTimes = np.arange(tMin, tMax, old_div(1.0,framerate))
 
     try:
         imageDir = tempfile.mkdtemp()

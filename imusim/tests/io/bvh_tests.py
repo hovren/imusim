@@ -1,6 +1,7 @@
 """
 Tests for BVH IO
 """
+from builtins import zip
 # Copyright (C) 2009-2011 University of Edinburgh
 #
 # This file is part of IMUSim.

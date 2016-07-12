@@ -19,6 +19,7 @@ Test of Orient-3 IMU model.
 # along with IMUSim.  If not, see <http://www.gnu.org/licenses/>.
 
 from __future__ import division
+from builtins import range
 from imusim.environment.base import Environment
 from imusim.simulation.base import Simulation
 from imusim.simulation.calibrators import ScaleAndOffsetCalibrator

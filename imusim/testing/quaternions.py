@@ -1,6 +1,8 @@
 """
 Utilities for testing quaternion values
 """
+from __future__ import division
+from past.utils import old_div
 # Copyright (C) 2009-2011 University of Edinburgh
 #
 # This file is part of IMUSim.
@@ -96,7 +98,7 @@ def assert_quaternions_correlated(actual, desired, targetCorrelation=0.95,
     actual = actual.array.T
     desired = desired.array.T
     correlationMatrix = np.corrcoef(actual, desired)
-    s = correlationMatrix.shape[0] / 2
+    s = old_div(correlationMatrix.shape[0], 2)
     correlationMatrix = correlationMatrix[s:, :s]
     correlations = np.diag(correlationMatrix)
 

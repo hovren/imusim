@@ -1,6 +1,10 @@
 """
 Tests for overall system simulation.
 """
+from __future__ import division
+from builtins import zip
+from builtins import range
+from past.utils import old_div
 # Copyright (C) 2009-2011 University of Edinburgh
 #
 # This file is part of IMUSim.
@@ -57,12 +61,12 @@ filterParameters = {
 def checkSystemSimulation(filterClass):
     sim = Simulation()
     env = sim.environment
-    samplingPeriod = 1.0/100
+    samplingPeriod = old_div(1.0,100)
     calibrator = ScaleAndOffsetCalibrator(env, 1000, samplingPeriod, 20)
     simModel = SplinedBodyModel(loadBVHFile(testMotion, conversionFactor=0.01))
     sim.time = simModel.startTime
     slotTime = 0.001
-    schedule = Schedule(slotTime, slotTime, range(len(list(simModel.joints))))
+    schedule = Schedule(slotTime, slotTime, list(range(len(list(simModel.joints)))))
 
     def setupIMU(id, joint):
         platform = MagicIMU()

@@ -1,6 +1,8 @@
 """
 3D data rendering using Mayavi.
 """
+from builtins import zip
+from builtins import object
 # Copyright (C) 2009-2011 University of Edinburgh
 #
 # This file is part of IMUSim.
@@ -21,6 +23,7 @@
 import time
 import wx
 import numpy as np
+from future.utils import with_metaclass
 try:
     from mayavi import mlab
 except ImportError:
@@ -115,12 +118,10 @@ def autoPositionCamera():
     mlab.roll(0)
     s.disable_render = False
 
-class AnimatedRenderer(object):
+class AnimatedRenderer(with_metaclass(ABCMeta, object)):
     """
     Base class for animation renderers.
     """
-
-    __metaclass__ = ABCMeta
     def __init__(self, *args, **kwargs):
         """
         Initialise renderer.

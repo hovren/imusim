@@ -1,6 +1,7 @@
 """
 Tests for offset trajectories.
 """
+from builtins import range
 # Copyright (C) 2009-2011 University of Edinburgh
 #
 # This file is part of IMUSim.

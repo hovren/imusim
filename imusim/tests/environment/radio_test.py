@@ -1,6 +1,7 @@
 """
 Tests for radio environments.
 """
+from builtins import range
 # Copyright (C) 2009-2011 University of Edinburgh
 #
 # This file is part of IMUSim.
@@ -65,7 +66,7 @@ def testBERRadioEnvironment():
     rx = TestPlatform(sim)
     packet = TestPacket()
 
-    for i in xrange(1000):
+    for i in range(1000):
         tx.sendPacket(packet)
 
     assert len(tx.packetsReceived) == 0

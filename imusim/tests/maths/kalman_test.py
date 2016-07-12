@@ -1,6 +1,10 @@
 """
 Kalman filter implementation tests.
 """
+from __future__ import division
+from builtins import zip
+from builtins import range
+from past.utils import old_div
 # Copyright (C) 2009-2011 University of Edinburgh
 #
 # This file is part of IMUSim.
@@ -37,7 +41,7 @@ measurmentMatrices = [
 controlMatrices = [
         np.eye(1),
         np.zeros((1,1)),
-        np.matrix([[dt**2/2],[dt]])
+        np.matrix([[old_div(dt**2,2)],[dt]])
         ]
 controlFunctions = [
         lambda t: 0.1*t,
@@ -52,12 +56,12 @@ initialStates = [
 initialCovariances = [
         np.array([[0.1]]),
         np.array([[0.5]]),
-        0.2**2 * np.array([[dt**4/4,dt**3/2],[dt**3/2, dt**2]])
+        0.2**2 * np.array([[old_div(dt**4,4),old_div(dt**3,2)],[old_div(dt**3,2), dt**2]])
         ]
 processCovariances = [
         np.array([[0.01]]),
         np.array([[0.05]]),
-        0.2**2 * np.array([[dt**4/4,dt**3/2],[dt**3/2, dt**2]])
+        0.2**2 * np.array([[old_div(dt**4,4),old_div(dt**3,2)],[old_div(dt**3,2), dt**2]])
         ]
 measurementCovariances = [
         np.array([[0.3]]),

@@ -5,6 +5,7 @@ Sampled trajectories do not support evaluation of derivative values such as
 velocities or accelerations. To evaulate these properties a splined trajectory
 should be constructed. See L{splined}
 """
+from __future__ import absolute_import
 # Copyright (C) 2009-2011 University of Edinburgh
 #
 # This file is part of IMUSim.
@@ -22,7 +23,7 @@ should be constructed. See L{splined}
 # You should have received a copy of the GNU General Public License
 # along with IMUSim.  If not, see <http://www.gnu.org/licenses/>.
 
-from base import PositionTrajectory, RotationTrajectory
+from .base import PositionTrajectory, RotationTrajectory
 from imusim.maths.quaternions import Quaternion, QuaternionArray
 from imusim.utilities.caching import CacheLastValue
 from imusim.utilities.time_series import TimeSeries
@@ -60,9 +61,8 @@ class SampledPositionTrajectory(PositionTrajectory):
 
         See L{imusim.trajectories.splined} for support.
         """
-        raise NotImplementedError, \
-            "Derivative not available from sampled trajectory. " \
-            + "Create a splined trajectory to obtain derivatives."
+        raise NotImplementedError("Derivative not available from sampled trajectory. " \
+            + "Create a splined trajectory to obtain derivatives.")
 
     def acceleration(self, t):
         """
@@ -70,9 +70,8 @@ class SampledPositionTrajectory(PositionTrajectory):
 
         See L{imusim.trajectories.splined} for support.
         """
-        raise NotImplementedError, \
-            "Derivative not available from sampled trajectory. " \
-            + "Create a splined trajectory to obtain derivatives."
+        raise NotImplementedError("Derivative not available from sampled trajectory. " \
+            + "Create a splined trajectory to obtain derivatives.")
 
     @property
     def startTime(self):
@@ -113,9 +112,8 @@ class SampledRotationTrajectory(RotationTrajectory):
 
         See L{splined} for support.
         """
-        raise NotImplementedError, \
-            "Derivative not available from sampled trajectory. " \
-            + "Create a splined trajectory to obtain derivatives."
+        raise NotImplementedError("Derivative not available from sampled trajectory. " \
+            + "Create a splined trajectory to obtain derivatives.")
 
     def rotationalAcceleration(self, t):
         """
@@ -123,9 +121,8 @@ class SampledRotationTrajectory(RotationTrajectory):
 
         See L{splined} for support.
         """
-        raise NotImplementedError, \
-            "Derivative not available from sampled trajectory. " \
-            + "Create a splined trajectory to obtain derivatives."
+        raise NotImplementedError("Derivative not available from sampled trajectory. " \
+            + "Create a splined trajectory to obtain derivatives.")
 
     @property
     def startTime(self):

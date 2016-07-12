@@ -1,6 +1,7 @@
 """
 Radio environment models.
 """
+from builtins import object
 # Copyright (C) 2009-2011 University of Edinburgh
 #
 # This file is part of IMUSim.
@@ -20,15 +21,14 @@ Radio environment models.
 
 import numpy as np
 from abc import ABCMeta, abstractmethod
+from future.utils import with_metaclass
 
-class RadioEnvironment(object):
+class RadioEnvironment(with_metaclass(ABCMeta, object)):
     """
     Base class for radio environment models.
 
     @ivar receivers: list of potential receivers
     """
-
-    __metaclass__ = ABCMeta
 
     def __init__(self):
         """

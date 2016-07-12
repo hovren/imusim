@@ -1,6 +1,8 @@
 """
 Test for whether ideal Kalman filter process covariances give optimal results.
 """
+from builtins import filter
+from builtins import range
 # Copyright (C) 2009-2011 University of Edinburgh
 #
 # This file is part of IMUSim.
@@ -75,7 +77,7 @@ def checkOptimalQ(states):
 
         def filterError(q, filter):
 
-            filter = filter(q, states)
+            filter = list(filter(q, states))
 
             z = np.empty_like(x)
 

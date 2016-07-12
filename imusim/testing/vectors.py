@@ -1,6 +1,8 @@
 """
 Test utilities for vectors.
 """
+from __future__ import division
+from past.utils import old_div
 # Copyright (C) 2009-2011 University of Edinburgh
 #
 # This file is part of IMUSim.
@@ -35,7 +37,7 @@ def assert_vectors_correlated(actual, desired, targetCorrelation=0.95):
     @param targetCorrelation: Minimum correlation to accept.
     """
     correlationMatrix = np.corrcoef(actual, desired)
-    s = correlationMatrix.shape[0] / 2
+    s = old_div(correlationMatrix.shape[0], 2)
     correlationMatrix = correlationMatrix[s:, :s]
     correlations = np.diag(correlationMatrix)
 
