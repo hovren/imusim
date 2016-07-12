@@ -22,7 +22,10 @@ Spline fitting of quaternion data.
 from __future__ import division
 from imusim.maths.quaternions import QuaternionArray, QuaternionFactory
 from imusim.maths.splines import Spline, PartialInputSpline
-from itertools import izip
+try:
+    from itertools import izip as zip
+except ImportError:
+    pass
 import numpy as np
 import math
 
@@ -434,7 +437,7 @@ class PartialInputQuaternionBSpline(PartialInputSpline):
         q = QuaternionArray(np.empty((length,4)))
         w = np.empty((3,length))
         a = np.empty((3,length))
-        for condition, result in izip(conditions, results):
+        for condition, result in zip(conditions, results):
             q[condition], w[:,condition], a[:,condition] = result
         q.array[undefined] = np.nan
         w[:,undefined] = np.nan

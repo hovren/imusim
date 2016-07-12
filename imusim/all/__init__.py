@@ -23,14 +23,14 @@ import os
 import inspect
 
 __all__ = []
-path = os.path.split(pkgutil.get_loader('imusim').filename)[0]
+path = os.path.split(os.path.split(pkgutil.get_loader('imusim').path)[0])[0]
 for loader, modname, ispkg in pkgutil.walk_packages([path]):
     if modname.startswith('imusim') \
             and not modname.startswith('imusim.tests') \
             and not modname.startswith('imusim.all'):
         exec("import %s" % modname)
         exec("module = %s" % modname)
-        symbols = [o for o in module.__all__ if hasattr(module,'__all__') else dir(module) if not inspect.ismodule(o)]
+        symbols = [o for o in (module.__all__ if hasattr(module,'__all__') else dir(module)) if not inspect.ismodule(o)]
         symbols = [s for s in symbols if not s.startswith('_')]
         exec("from %s import *" % modname)
         __all__ += symbols
