@@ -23,7 +23,13 @@ import os
 import inspect
 
 __all__ = []
-path = os.path.split(os.path.split(pkgutil.get_loader('imusim').path)[0])[0]
+try:
+    # Python 3
+    path = os.path.split(os.path.split(pkgutil.get_loader('imusim').path)[0])[0]
+except AttributeError:
+    # Python 2
+    path = os.path.split(pkgutil.get_loader('imusim').filename)[0]
+    
 for loader, modname, ispkg in pkgutil.walk_packages([path]):
     if modname.startswith('imusim') \
             and not modname.startswith('imusim.tests') \
