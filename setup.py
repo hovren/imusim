@@ -53,6 +53,7 @@ try:
 except ImportError:
     try:
         import enthought.mayavi
+        HAS_MAYAVI = True
     except ImportError:
         HAS_MAYAVI = False
         
@@ -98,10 +99,14 @@ packages = find_packages()
 
 if not HAS_MAYAVI:
     print('Building without mayavi')
-    print(packages)
     packages.remove('imusim.visualisation')
+    packages.remove('imusim.tests.visualisation')
 
 if depsOK:
+    print('--- Packages to install -------------')
+    for pkg in packages:
+        print(pkg)
+        
     setup(
         name = "imusim",
         version = "0.2",
